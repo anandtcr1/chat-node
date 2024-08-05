@@ -1,10 +1,11 @@
 const fs = require("fs").promises;
 const fileName = "data.json";
+// import path from "path";
 
 const OpenAI = require("openai");
 // const openai = new OpenAI();
 const openai = new OpenAI({
-    api_key: `sk-proj-54JETop123XYh6woGjaBT3BlbkFJGEbddUQNKfXBtuCKJMTX`
+    apiKey: `sk-proj-54JETop123XYh6woGjaBT3BlbkFJGEbddUQNKfXBtuCKJMTX`
   });
 
 
@@ -48,17 +49,17 @@ async function loadMessages() {
     return messages;
 }
 
-async function getChatResponse(user_message) {
+async function getChatResponse(user_message, replyLocation) {
     messages = []
     const transcript = {
         "role": "user",
         "content": user_message
     };
 
-    const gpt_response = {
-        "role": "assistant",
-        "content": "replied for the answer",
-    };
+    // const gpt_response = {
+    //     "role": "assistant",
+    //     "content": "replied for the answer",
+    // };
 
     messages = await loadMessages();
     messages.push(transcript);
@@ -66,17 +67,42 @@ async function getChatResponse(user_message) {
 
     
 
-    // Call the chat completion endpoint
-    const response = await openai.createChatCompletion({
-        model: 'gpt-3.5-turbo', // Specify the chat model
-        messages: messages,     // Pass the full chat history
-    });
+    const completion = await openai.chat.completions.create({
+        messages: messages,
+        model: "gpt-4o-mini",
+      });
+    
+    //   console.log(completion.choices[0]);
 
     // Log the assistant's response
-    console.log('Assistant Response:', response.data.choices[0].message.content);
+    console.log('Assistant Response:', completion.choices);
+    var assistantResponse = completion.choices[0].message.content;
+    const gpt_response = {
+        "role": "assistant",
+        "content": assistantResponse
+    };
 
     saveMessages(messages, gpt_response, fileName);
-    return messages;
+
+    speechFile = await convertTextToSpeach(assistantResponse, replyLocation);
+
+    // return assistantResponse;
+    return speechFile;
+}
+
+async function convertTextToSpeach(assistantResponse, replyLocation) {
+    speechFile = replyLocation;
+console.log('speechFile ->', speechFile);
+
+    const mp3 = await openai.audio.speech.create({
+        model: "tts-1",
+        voice: "alloy",
+        input: assistantResponse,
+      });
+      console.log(speechFile);
+      const buffer = Buffer.from(await mp3.arrayBuffer());
+      await fs.writeFile(speechFile, buffer);
+      return speechFile;
 }
 
 function saveMessages(messages, gpt_response,) {

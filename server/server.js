@@ -5,6 +5,8 @@ const getTextFromAudio = require('./chat-functions/openai');
 const axios = require('axios');
 const FormData = require('form-data')
 const fs = require("fs");
+var cors = require('cors')
+
 
 const app = express();
 const port = 4500;
@@ -32,7 +34,7 @@ app.get('/api/chat', async (req, res) => {
     res.send(dat);
 });
 
-app.post('/api/validate', async function (req, res) {
+app.post('/api/validate', cors(), async function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('no files')
         return res.status(400).send('No files were uploaded.');
@@ -43,6 +45,10 @@ app.post('/api/validate', async function (req, res) {
     flName = start + file.name;
     uploadLocation = __dirname + '/audio/' + flName;
     
+    replyLocation = __dirname + '/user_reply/' + flName;
+
+    console.log(replyLocation);
+
     file.mv(uploadLocation, async function (err) {
         if(err) {
             console.log(err);
@@ -50,7 +56,8 @@ app.post('/api/validate', async function (req, res) {
         }
         else {
             var transcript = await getTextFromAudio(uploadLocation);
-            messages = await getChatResponse(transcript)
+            //var transcript = 'React is a js library. It is used to create front-end applications.'
+            messages = await getChatResponse(transcript, replyLocation)
 
 
             res.send(messages);
