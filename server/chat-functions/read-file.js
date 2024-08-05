@@ -5,7 +5,7 @@ const fileName = "data.json";
 const OpenAI = require("openai");
 // const openai = new OpenAI();
 const openai = new OpenAI({
-    apiKey: `sk-proj-54JETop123XYh6woGjaBT3BlbkFJGEbddUQNKfXBtuCKJMTX`
+    apiKey: `sk-proj-`
   });
 
 

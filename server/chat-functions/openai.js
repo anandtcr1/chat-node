@@ -9,7 +9,7 @@ async function getTextFromAudio() {
     const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', form, {
         headers: {
             ...form.getHeaders(),
-            'Authorization': `Bearer sk-proj-54JETop123XYh6woGjaBT3BlbkFJGEbddUQNKfXBtuCKJMTX`
+            'Authorization': `Bearer sk-proj-`
         }
     });
 

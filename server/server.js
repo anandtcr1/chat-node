@@ -11,18 +11,6 @@ var cors = require('cors')
 const app = express();
 const port = 4500;
 
-
-// const { Configuration, OpenAIApi } = require('openai');
-
-// Initialize OpenAI with your API key
-// const configuration = new Configuration({
-//     apiKey: `sk-proj-54JETop123XYh6woGjaBT3BlbkFJGEbddUQNKfXBtuCKJMTX`,
-// });
-// const openai = new OpenAIApi(configuration);
-
-
-
-
 // default options
 app.use(fileUpload());
 
