@@ -25,6 +25,7 @@ async function loadMessages() {
 
     data = await readFileAsync();
     
+    //
 
     if (data.length == 0) {
         messages.push(defaultMessage);
