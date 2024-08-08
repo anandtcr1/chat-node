@@ -63,7 +63,7 @@ app.post('/api/validate', cors(), async function (req, res) {
 });
 
 
-app.get('/api/user/user-list', cors(), async function(req, res) {
+app.get('/api/user/user-list', cors(), async function (req, res) {
     const employeeList = await User.find({});
     res.send(employeeList);
 })
@@ -108,18 +108,32 @@ app.post('/api/user/create-user', cors(), async function (req, res) {
     });
 });
 
-app.post('/api/user/login', cors(), async function(req, res) {
-    const { emailAddress, password } = req.body;
+app.post('/api/user/add-question', cors(), async function (req, res) {
+    const { userId, questionId } = req.body;
+    const result = await User.updateOne({_id: userId}, { $set: { questionId: questionId } });
+    console.log(result);
+    if(result.acknowledged && result.modifiedCount > 0) {
+        // await User.updateOne({_id: userId}, { $set: { questionId: questionId } });
+        res.status(200).send({ message: 'Records updated' });
+    }
+    else {
+        res.status(404).send({ message: 'Error, User doesnot exists' });
+    }
     
+});
+
+app.post('/api/user/login', cors(), async function (req, res) {
+    const { emailAddress, password } = req.body;
+
     const user = await User.findOne({ emailAddress, password });
     console.log('user -> ', user);
-    if(user)
+    if (user)
         res.json(user)
     else
         res.status(404).json({ message: 'Employee not found' });
 });
 
-app.get('/api/interview-question/list', cors(), async function(req, res) {
+app.get('/api/interview-question/list', cors(), async function (req, res) {
     const questionsList = await Questions.find({});
     res.send(questionsList);
 })
