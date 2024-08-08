@@ -44,7 +44,7 @@ function CreateUser() {
               }
         });
 
-        console.log('sabed');
+        console.log('saved');
 
     }
 

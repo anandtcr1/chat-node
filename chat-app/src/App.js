@@ -4,13 +4,19 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Interview from './components/Interview';
 import Login from './components/admin/login/Login';
 import CreateUser from './components/admin/user/CreateUser';
+import UserList from './components/admin/user/UserList';
+import CreateQuestion from './components/admin/questions/CreateQuestion';
+import QuestionsList from './components/admin/questions/QuestionsList';
 
 function App() {
 
   const router = createBrowserRouter([
     { path: '/interview', element: <Interview /> },
     { path: '/', element: <Login /> },
-    { path: '/create-user', element: <CreateUser /> }
+    { path: '/admin/create-user', element: <CreateUser /> },
+    { path: '/admin/user-list', element: <UserList /> },
+    { path: '/admin/question/create', element: <CreateQuestion /> },
+    { path: '/admin/question/list', element: <QuestionsList /> }
   ]);
 
   return (

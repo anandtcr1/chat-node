@@ -1,5 +1,6 @@
 import { useState } from "react"
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 
 function Login() {
 
@@ -9,6 +10,8 @@ function Login() {
     });
 
     const [errorMessage, setErrorMessage] = useState();
+
+    const navigate = useNavigate();
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -31,11 +34,14 @@ function Login() {
 
         await axios.post('http://localhost:4500/api/user/login', form)
                 .then((response) => {
-                    console.log('response-', response)
+                    console.log('response-', response.status);
+                    if(response.status == 200){
+                        navigate('/admin/create-user');
+                    }
                     setErrorMessage('');
                 })
                 .then((data) => {
-                    console.log('data-', data)
+                    console.log('data-', data);
                     setErrorMessage('');
                 })
                 .catch((error) => {
