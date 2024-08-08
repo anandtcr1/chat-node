@@ -6,6 +6,8 @@ function UserList() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const [selectedQuestionId, setSelectedQuestionId] = useState();
+    const [selectedUserId, setSelectedUserId] = useState();
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -36,8 +38,24 @@ function UserList() {
         fetchUsers();
     }, []);
 
+    const handleDropdownChange = (event, id) => {
+        const newValue = event.target.value;
+        setSelectedQuestionId(newValue);
+        setSelectedUserId(id);
+    };
+
     const mapQuestion = () => {
-        console.log('save');
+        const form = new FormData()
+        form.append('userId', selectedUserId);
+        form.append('questionId', selectedQuestionId);
+
+        axios.post('http://localhost:4500/api/user/add-question', form)
+            .then((response) => {
+                console.log(response)
+            })
+            .catch((err) => {
+                console.log('error', err);
+            })
     }
 
     if (isLoading) return <p>Loading..</p>
@@ -64,22 +82,23 @@ function UserList() {
                     {users.map(user => (
                         <tr key={user._id}>
                             <td>
-                                <img src={'http://localhost:4500' + user.userImage} />
+                                <img style={{ width: '40px' }} src={'http://localhost:4500' + user.userImage} />
                             </td>
                             <td> {user.name} </td>
                             <td> {user.address} </td>
                             <td> {user.contactNumber} </td>
                             <td> {user.emailAddress} </td>
                             <td>
-                                <select>
+                                <select key={user._id}
+                                    onChange={(event) => handleDropdownChange(event, user._id)}>
                                     {questions.map(question => (
-                                        <option key={question._id} value={question._id}>{question.questionHeader}</option>
+                                        <option key={question._id} value={question._id} >{question.questionHeader}</option>
                                     ))}
                                 </select>
                                 <button onClick={mapQuestion}>Update</button>
                             </td>
                             <td>
-                                
+
                                 <button>Edit</button>
                             </td>
                         </tr>
