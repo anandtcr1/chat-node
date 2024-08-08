@@ -35,7 +35,7 @@ app.get('/api/chat', async (req, res) => {
 
 app.post('/api/validate', cors(), async function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
-        console.log('no files')
+        console.log('no files');
         return res.status(400).send('No files were uploaded.');
     }
 
