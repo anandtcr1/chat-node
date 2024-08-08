@@ -45,13 +45,13 @@ function UserList() {
     };
 
     const mapQuestion = () => {
-        const form = new FormData()
+        const form = new FormData();
         form.append('userId', selectedUserId);
         form.append('questionId', selectedQuestionId);
 
         axios.post('http://localhost:4500/api/user/add-question', form)
             .then((response) => {
-                console.log(response)
+                console.log(response);
             })
             .catch((err) => {
                 console.log('error', err);
