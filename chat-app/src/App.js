@@ -7,6 +7,7 @@ import CreateUser from './components/admin/user/CreateUser';
 import UserList from './components/admin/user/UserList';
 import CreateQuestion from './components/admin/questions/CreateQuestion';
 import QuestionsList from './components/admin/questions/QuestionsList';
+import UserLogin from './components/user/login/UserLogin';
 
 function App() {
 
@@ -16,7 +17,8 @@ function App() {
     { path: '/admin/create-user', element: <CreateUser /> },
     { path: '/admin/user-list', element: <UserList /> },
     { path: '/admin/question/create', element: <CreateQuestion /> },
-    { path: '/admin/question/list', element: <QuestionsList /> }
+    { path: '/admin/question/list', element: <QuestionsList /> },
+    { path: '/user/login', element: <UserLogin />}
   ]);
 
   return (

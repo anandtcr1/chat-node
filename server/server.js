@@ -10,6 +10,8 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const path = require('path');
 const Questions = require('./models/Questions');
+const ExcelJs = require('exceljs');
+const { default: readExcelFile } = require('./admin/question_management/QuestionFileManagement');
 
 
 const app = express();
@@ -173,6 +175,16 @@ app.post('/api/interview-question/create', cors(), async function (req, res) {
         }
     });
 });
+
+app.post('/api/setup-interview', cors(), function (req, res) {
+    const id = req.body.questionId;
+    const question = Questions.findOne({_id:id});
+
+    console.log(question);
+    res.send(question);
+
+    // readExcelFile()
+})
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
