@@ -2,7 +2,7 @@ const ExcelJS = require('exceljs');
 const path = require('path');
 
 
-export default async function readExcelFile(filePath) {
+async function readExcelFile(filePath) {
     const workbook = new ExcelJS.workbook();
     await workbook.xlsx.readFile(filePath);
 
@@ -15,3 +15,5 @@ export default async function readExcelFile(filePath) {
 
     return data;
 }
+
+module.exports = readExcelFile;

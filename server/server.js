@@ -11,7 +11,7 @@ const User = require('./models/User');
 const path = require('path');
 const Questions = require('./models/Questions');
 const ExcelJs = require('exceljs');
-const { default: readExcelFile } = require('./admin/question_management/QuestionFileManagement');
+const { readExcelFile } = require('./admin/question_management/QuestionFileManagement');
 
 
 const app = express();
@@ -176,14 +176,16 @@ app.post('/api/interview-question/create', cors(), async function (req, res) {
     });
 });
 
-app.post('/api/setup-interview', cors(), function (req, res) {
+app.post('/api/setup-interview', cors(), async function (req, res) {
     const id = req.body.questionId;
-    const question = Questions.findOne({_id:id});
+    const question = await Questions.findOne({_id:id});
 
-    console.log(question);
-    res.send(question);
+    const excelFilePath = __dirname + question.questionsFile;
+    const excelData = await readExcelFile(excelFilePath);
+    console.log(excelFilePath);
+    res.send(excelData);
 
-    // readExcelFile()
+    
 })
 
 app.listen(port, () => {
