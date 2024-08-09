@@ -10,8 +10,9 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const path = require('path');
 const Questions = require('./models/Questions');
-const ExcelJs = require('exceljs');
+const ExcelJS = require('exceljs');
 const { readExcelFile } = require('./admin/question_management/QuestionFileManagement');
+const excelToJson = require('convert-excel-to-json');
 
 
 const app = express();
@@ -181,11 +182,21 @@ app.post('/api/setup-interview', cors(), async function (req, res) {
     const question = await Questions.findOne({_id:id});
 
     const excelFilePath = __dirname + question.questionsFile;
-    const excelData = await readExcelFile(excelFilePath);
-    console.log(excelFilePath);
-    res.send(excelData);
+    // const excelData = await readExcelFile(excelFilePath);
 
-    
+    const result = excelToJson({
+        sourceFile: excelFilePath,
+        header:{
+            // Is the number of rows that will be skipped and will not be present at our result object. Counting from top to bottom
+            rows: 1 // 2, 3, 4, etc.
+        },
+        columnToKey: {
+        	A: 'question',
+    		B: 'answer'
+        }
+    });
+
+    res.send(result);   
 })
 
 app.listen(port, () => {
