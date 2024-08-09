@@ -178,6 +178,9 @@ app.post('/api/interview-question/create', cors(), async function (req, res) {
 });
 
 app.post('/api/setup-interview', cors(), async function (req, res) {
+    
+    console.log('req.body.questionId', req.body.questionId);
+
     const id = req.body.questionId;
     const question = await Questions.findOne({_id:id});
 

@@ -38,7 +38,7 @@ function UserLogin() {
                 
                 if (response.status == 200) {
                     if(response.data.questionId) {
-                        navigate('/admin/create-user');
+                        navigate('/user/dashboard');
                     }
                     else{
                         console.log('err-')

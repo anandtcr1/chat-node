@@ -8,6 +8,7 @@ import UserList from './components/admin/user/UserList';
 import CreateQuestion from './components/admin/questions/CreateQuestion';
 import QuestionsList from './components/admin/questions/QuestionsList';
 import UserLogin from './components/user/login/UserLogin';
+import UserDashboard from './components/user/dashboard/UserDashboard';
 
 function App() {
 
@@ -18,7 +19,8 @@ function App() {
     { path: '/admin/user-list', element: <UserList /> },
     { path: '/admin/question/create', element: <CreateQuestion /> },
     { path: '/admin/question/list', element: <QuestionsList /> },
-    { path: '/user/login', element: <UserLogin />}
+    { path: '/user/login', element: <UserLogin />},
+    { path: '/user/dashboard', element: <UserDashboard />}
   ]);
 
   return (
